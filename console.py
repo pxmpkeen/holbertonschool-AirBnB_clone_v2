@@ -126,24 +126,24 @@ class HBNBCommand(cmd.Cmd):
 
         for i in values:
             key, value = i.split("=")
-            args[key] = value
             try:
-                values = values(int)
+                value = int(value)
             except ValueError:
                 try:
-                    values = values(float)
+                    value = float(value)
                 except ValueError:
-                    value = i.split("_").replace(" ")
+                    value = value.strip('"').replace("_", " ")
+            kwargs_dict[key] = value
         print(kwargs_dict)
 
         # if class_name not in HBNBCommand.classes:
         #     print("** class doesn't exist **")
         #     return
         
-        new_instance = HBNBCommand.classes[class_name](**kwargs_dict)
-        storage.save()
+        new_instance = HBNBCommand.classes[classes](**kwargs_dict)
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
+        new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
