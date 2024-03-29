@@ -53,4 +53,4 @@ class FileStorage:
         """Delete object from __objects"""
         if obj:
             del FileStorage.__objects[obj.to_dict()['__class__'] + '.' + obj.id]
-            #self.save()
+            self.save()
