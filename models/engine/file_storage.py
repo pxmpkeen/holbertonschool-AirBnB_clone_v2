@@ -52,8 +52,7 @@ class FileStorage:
     def delete(self, obj=None):
         """Delete object from __objects"""
         try:
-            key_to_delete = "{}.{}".format(obj.__class__, obj.id)
-            del FileStorage.__objects[key_to_delete]
+            del FileStorage.__objects[obj.to_dict()['__class__'] + '.' + obj.id]
             #self.save()
         except:
             pass
