@@ -2,7 +2,8 @@
 """ State Module for HBNB project """
 from models.base_model import BaseModel
 
-
+from sqlalchemy import Column, DateTime, String
+from sqlalchemy.ext.declarative import declarative_base
 
 
 class State(BaseModel):
