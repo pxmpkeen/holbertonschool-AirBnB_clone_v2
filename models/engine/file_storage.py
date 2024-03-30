@@ -13,7 +13,7 @@ class FileStorage:
         if cls:
             cls_empty_dict = {}
             for key, value in FileStorage.__objects.items():
-                if cls.__name__ == key.split(".")[0]:
+                if type(value) is cls:
                     cls_empty_dict[key] = value
             return cls_empty_dict
         else:
@@ -59,5 +59,6 @@ class FileStorage:
     def delete(self, obj=None):
         """Delete object from __objects"""
         if obj:
-            del FileStorage.__objects[obj.to_dict()['__class__'] + '.' + obj.id]
-            self.save()
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            if FileStorage.__objects.get(key):
+                del FileStorage.__objects[key]
