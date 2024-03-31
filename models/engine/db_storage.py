@@ -13,7 +13,7 @@ from os import getenv
 class DBStorage:
     __engine = None
     __session = None
-    classes = ["Amenity", "City", "Place", "Review", "State", "User"]
+    classes = {"Amenity" : Amenity, "City": City, "Place": Place, "Review": Review, "State": State, "User": User}
 
     def __init__(self):
         self.user = getenv("HBNB_MYSQL_USER")
@@ -33,19 +33,15 @@ class DBStorage:
     def all(self, cls=None):
         objs = dict()
 
-        if cls is None:
-            for class_name in self.classes:
-                type_of_class = eval(class_name)
-                values = self.__session.query(type_of_class).all()
-                objs = {"{}.{}".format(
-                    type_of_class.__name__, value.id
-                    ): value for value in values}
+        if cls:
+            for line in self.__session.query(cls).all():
+                objs.update({'{}.{}'.
+                                format(type(cls).__name__, row.id,): row})
         else:
-            values = self.__session.query(cls).all()
-            objs = {"{}.{}".format(
-                cls.__name__, value.id
-                ): value for value in values}
-
+            for key, val in self.classes.items():
+                for row in self.__session.query(val):
+                    objs.update({'{}.{}'.
+                                    format(type(row).__name__, row.id,): row})
         return objs
 
     def new(self, obj):
@@ -61,5 +57,4 @@ class DBStorage:
     def reload(self):
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(session)
-        self.__session = Session()
+        self.__session = scoped_session(session)

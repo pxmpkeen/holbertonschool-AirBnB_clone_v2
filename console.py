@@ -130,6 +130,7 @@ class HBNBCommand(cmd.Cmd):
             value = eval(arg.split("=")[1])
             if type(value) is str:
                 value = value.replace("_", " ")
+                value = value.strip('"\'')
             kwargs[key] = value
         new_instance = HBNBCommand.classes[class_name](**kwargs)
         new_instance.save()
