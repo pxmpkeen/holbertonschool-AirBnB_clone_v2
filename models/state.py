@@ -9,10 +9,13 @@ from os import getenv
 class State(BaseModel, Base):
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
+    cities = relationship('City', cascade='all, delete', backref='state')
 
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
-        cities = relationship('City', cascade='all, delete', backref='state')
-    else:
+    def __init__(self, *args, **kwargs):
+        """ Initialization of State instance """
+        super().__init__(*args, **kwargs)
+        
+    if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def cities(self):
             from models import storage
