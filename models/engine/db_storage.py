@@ -10,6 +10,7 @@ from models.amenity import Amenity
 from models.review import Review
 from os import getenv
 
+
 class DBStorage:
     __engine = None
     __session = None
