@@ -7,6 +7,7 @@ from sqlalchemy.orm import relationship
 from os import getenv
 from models.review import Review
 
+
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = 'places'
