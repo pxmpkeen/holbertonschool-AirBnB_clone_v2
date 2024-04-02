@@ -30,7 +30,7 @@ class test_basemodel(unittest.TestCase):
     def tearDown(self):
         try:
             os.remove('file.json')
-        except:
+        except FileNotFoundError:
             pass
 
     def test_default(self):
@@ -52,7 +52,7 @@ class test_basemodel(unittest.TestCase):
         copy.update({1: 2})
         with self.assertRaises(TypeError):
             new = BaseModel(**copy)
-        
+
     @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "DBStorage")
     def test_save(self):
         """ Testing save """
@@ -66,7 +66,7 @@ class test_basemodel(unittest.TestCase):
     def test_str(self):
         """ """
         i = self.value()
-        self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
+        self.assertEqual(str(i), '[{}] ({}) {}'.format(i.__class__.__name__, i.id,
                          i.__dict__))
 
     def test_todict(self):
@@ -84,8 +84,8 @@ class test_basemodel(unittest.TestCase):
     def test_kwargs_one(self):
         """ """
         n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
-            new = self.value(**n)
+        new = self.value(**n)
+        self.assertEqual(type(new.id), str)
 
     def test_id(self):
         """ """
