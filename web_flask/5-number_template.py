@@ -2,11 +2,11 @@
 """
 Starting Flask WEB application
 """
-from flask import Flask
+from flask import Flask, render_template
 
 
 # Creating an instance of Flask class
-app = Flask('__name__')
+app = Flask('__name__', template_folder="web_flask/templates")
 
 
 @app.route("/", strict_slashes=False)
@@ -40,6 +40,11 @@ def py_text(text="is cool"):
 def nums(n):
     """Working with numbers"""
     return "{:d} is a number".format(n)
+
+@app.route("/number_template/<int:n>", strict_slashes=False)
+def num_temp(n):
+    """Working with numbers"""
+    return render_template("5-number.html", n=n)
 
 
 if __name__ == '__main__':
