@@ -67,4 +67,4 @@ class DBStorage:
         self.__session = Session()
 
     def clode(self):
-        self.__session().close()
+        self.__session.close()
