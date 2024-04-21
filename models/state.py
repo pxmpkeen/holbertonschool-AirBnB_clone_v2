@@ -14,10 +14,11 @@ class State(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """ Initialization of State instance """
         super().__init__(*args, **kwargs)
+
     if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def cities(self):
             from models import storage
             from models.city import City
             cities = storage.all(City)
-            return [city for city in cities.values if city.state_id == self.id]
+            return [city for city in cities.values() if city.state_id == self.id]
