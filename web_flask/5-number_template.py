@@ -1,36 +1,51 @@
 #!/usr/bin/python3
-"""hello flask"""
-
-
+"""
+Starting Flask WEB application
+"""
 from flask import Flask, render_template
 
-app = Flask(__name__)
+
+# Creating an instance of Flask class
+app = Flask('__name__', template_folder="web_flask/templates")
+
 
 @app.route("/", strict_slashes=False)
-def hello():
-        return "Hello HBNB!"
+def hello_world() -> str:
+    """Hello world in Flask"""
+    return "Hello HBNB!"
+
 
 @app.route("/hbnb", strict_slashes=False)
-def hbnb():
-      return "HBNB"
+def hbnb() -> str:
+    """Returning HBNB"""
+    return "HBNB"
+
 
 @app.route("/c/<text>", strict_slashes=False)
-def c(text):
-      changed_var = text.replace("_", " ")
-      return changed_var
+def c_text(text):
+    """Returning text"""
+    text = text.replace("_", " ")
+    return f"C {text}"
 
+
+@app.route("/python", strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
-def python(text):
-      changed_word = text.replace("_", " ")
-      return f"Python {changed_word}"
+def py_text(text="is cool"):
+    """Returning text"""
+    text = text.replace("_", " ")
+    return f"Python {text}"
+
 
 @app.route("/number/<int:n>", strict_slashes=False)
-def number(n):
-    return f"{n} is a number"
+def nums(n):
+    """Working with numbers"""
+    return "{:d} is a number".format(n)
 
 @app.route("/number_template/<int:n>", strict_slashes=False)
-def number_template(n):
-      return render_template('5-number.html', n=n)
+def num_temp(n):
+    """Working with numbers"""
+    return render_template("5-number.html", n=n)
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port='5000')
